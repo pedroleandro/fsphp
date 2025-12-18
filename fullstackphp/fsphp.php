@@ -65,3 +65,13 @@ function fullStackPHPErrorHandler($error, $message, $file, $line)
     $color = ($error == E_USER_ERROR ? "red" : "yellow");
     echo "<div class='trigger' style='border-color: var(--{$color}); color:var(--{$color});'>[ Linha {$line} ] {$message}<small>{$file}</small></div>";
 }
+
+function dump($data)
+{
+    ob_start();
+    var_dump($data);
+    $output = ob_get_clean();
+    $output = preg_replace('/[A-Z]:\\\\.*?:\d+:/i', '', $output);
+    $output = preg_replace('/\/.*?:\d+:/i', '', $output);
+    echo $output;
+}

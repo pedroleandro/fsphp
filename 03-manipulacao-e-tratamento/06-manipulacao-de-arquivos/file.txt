@@ -1,0 +1,5 @@
+Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica
+É um fato conhecido de todos que um leitor se distrairá com o conteúdo de texto legível de uma página quando estiver examinando sua diagramação.
+Ao contrário do que se acredita, Lorem Ipsum não é simplesmente um texto randômico.
+Existem muitas variações disponíveis de passagens de Lorem Ipsum
+O trecho padrão original de Lorem Ipsum, usado desde o século XVI, está reproduzido abaixo para os interessados.
