@@ -10,13 +10,14 @@ fullStackPHPClassSession("upload", __LINE__);
 
 $folder = __DIR__ . "/uploads";
 
-if (!file_exists($folder) || !is_dir($folder)) {
-    mkdir($folder, 0755);
+// Garante que a pasta exista
+if (!is_dir($folder)) {
+    mkdir($folder, 0755, true);
 }
 
 var_dump([
-    "filesize" => ini_get("upload_max_filesize"),
-    "post_max_size" => ini_get("post_max_size"),
+    "upload_max_filesize" => ini_get("upload_max_filesize"),
+    "post_max_size"      => ini_get("post_max_size"),
 ]);
 
 var_dump([
@@ -26,38 +27,50 @@ var_dump([
 
 $getPost = filter_input(INPUT_GET, "post", FILTER_VALIDATE_BOOLEAN);
 
-var_dump($getPost);
+if (!empty($_FILES['file']['name'])) {
 
-if ($_FILES && !empty($_FILES['file']['name'])) {
-    $fileUpload = $_FILES['file'];
-    var_dump($fileUpload);
+    $file = $_FILES['file'];
+    var_dump($file);
+
+    if ($file['error'] !== UPLOAD_ERR_OK) {
+        echo "<p class='trigger error'>Erro no upload do arquivo.</p>";
+        include __DIR__ . "/form.php";
+        exit;
+    }
 
     $allowedTypes = [
-        "image/jpeg",
-        "image/jpg",
-        "image/png",
-        "application/pdf",
+        'image/jpeg',
+        'image/png',
+        'application/pdf',
     ];
 
-    $newFilename = time() . mb_strstr($fileUpload['name'], '.');
-    if(in_array($fileUpload['type'], $allowedTypes)) {
-        if(move_uploaded_file($fileUpload['tmp_name'], __DIR__ . "/uploads/" . $newFilename)) {
-            echo "<p class='trigger accept'>Arquivo enviado com sucesso!</p>";
-        }else{
-            echo "<p class='trigger error'>Erro ao tentar enviar arquivo!</p>";
-        }
-    }else{
+    $finfo = finfo_open(FILEINFO_MIME_TYPE);
+    $mime  = finfo_file($finfo, $file['tmp_name']);
+    var_dump($mime);
+    finfo_close($finfo);
+
+    if (!in_array($mime, $allowedTypes, true)) {
         echo "<p class='trigger error'>Tipo de arquivo não permitido!</p>";
+        exit;
+    }
+
+    $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
+    $newFilename = uniqid('upload_', true) . '.' . $extension;
+
+    if (move_uploaded_file($file['tmp_name'], $folder . '/' . $newFilename)) {
+        echo "<p class='trigger accept'>Arquivo enviado com sucesso!</p>";
+    } else {
+        echo "<p class='trigger error'>Erro ao salvar o arquivo.</p>";
     }
 
 } elseif ($_FILES) {
     echo "<p class='trigger warning'>Selecione um arquivo antes de enviar!</p>";
 } elseif ($getPost) {
-    echo "<p class='trigger warning'>Whoops! O arquivo selecionado é muito grande</p>";
+    echo "<p class='trigger warning'>Whoops! O arquivo selecionado é muito grande.</p>";
 }
 
 include __DIR__ . "/form.php";
 
 var_dump(
-    scandir(__DIR__ . "/uploads"),
+    scandir($folder)
 );
