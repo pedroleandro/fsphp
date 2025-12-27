@@ -7,8 +7,34 @@ fullStackPHPClassName("04.04 - Carregamento automático");
  */
 fullStackPHPClassSession("autoload spl psr-4", __LINE__);
 
+//require __DIR__ . "/source/Loading/Address.php";
+//require __DIR__ . "/source/Loading/User.php";
+//require __DIR__ . "/source/Loading/Company.php";
+
+use \Source\Loading\Address;
+use \Source\Loading\User;
+use \Source\Loading\Company;
+
+require __DIR__ . "/source/autoload.php";
+
+$user = new User();
+$address = new Address();
+$company = new Company();
+
+var_dump(
+    $user,
+    $address,
+    $company
+);
 
 /*
  * [ autoload composer psr-4 ] https://getcomposer.org/doc/00-intro.md
  */
 fullStackPHPClassSession("autoload composer psr-4", __LINE__);
+
+require __DIR__ . "/vendor/autoload.php";
+
+use PHPMailer\PHPMailer\PHPMailer;
+$mail = new PHPMailer();
+
+var_dump($mail);

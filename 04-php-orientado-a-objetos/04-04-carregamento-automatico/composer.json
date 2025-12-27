@@ -1,0 +1,24 @@
+{
+  "name": "pedroleandro/fsphp",
+  "description": "Full Stack PHP Developer",
+  "minimum-stability": "stable",
+  "authors": [
+    {
+      "name": "Pedro Leandro Gomes da Silva",
+      "email": "pedroleandrogomesdasilva@outlook.com",
+      "homepage": "https://upinside.com.br",
+      "role": "Developer"
+    }
+  ],
+  "config": {
+    "vendor-lib": "vendor"
+  },
+  "autoload": {
+    "psr-4": {
+      "Source\\": "source/"
+    }
+  },
+  "require": {
+    "phpmailer/phpmailer": "^7.0.0"
+  }
+}
