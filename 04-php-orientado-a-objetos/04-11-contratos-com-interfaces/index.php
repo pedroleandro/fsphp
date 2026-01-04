@@ -10,11 +10,34 @@ require __DIR__ . "/source/autoload.php";
  */
 fullStackPHPClassSession("implementacão", __LINE__);
 
+$user = new \Source\Contracts\User(
+    "Pedro",
+    "Silva",
+    "pedro@outlook.com"
+);
+
+$admin = new \Source\Contracts\UserAdmin(
+    "Concita",
+    "Aguiar",
+    "concita@outlook.com"
+);
+
+var_dump($user, $admin);
+
 
 /*
  * [ associação ] Um exemplo associando ao login
  */
 fullStackPHPClassSession("associação", __LINE__);
+
+$login = new \Source\Contracts\Login();
+
+$loginUser = $login->loginUser($user);
+$loginAdmin = $login->loginAdmin($admin);
+var_dump(
+    $loginUser,
+    $loginAdmin
+);
 
 
 /*
@@ -22,6 +45,13 @@ fullStackPHPClassSession("associação", __LINE__);
  * um método assina seus atributos com uma interface.
  */
 fullStackPHPClassSession("dependência", __LINE__);
+
+var_dump(
+    $login->login($user),
+    $login->login($user)->getFirstName(),
+    $login->login($admin),
+    $login->login($admin)->getFirstName(),
+);
 
 
 
