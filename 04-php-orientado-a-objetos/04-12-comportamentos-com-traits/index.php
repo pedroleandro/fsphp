@@ -9,3 +9,26 @@ require __DIR__ . "/source/autoload.php";
  * do objeto (BEHAVES LIKE). http://php.net/manual/pt_BR/language.oop5.traits.php
  */
 fullStackPHPClassSession("trait", __LINE__);
+
+$user = new \Source\Traits\User(
+    "Pedro",
+    "Silva",
+    "pedro@outlook.com"
+);
+
+$address = new \Source\Traits\Address(
+    "Rua dos amigos",
+    20,
+    "Apartamento 21"
+);
+
+$register = new \Source\Traits\Register(
+    $user,
+    $address
+);
+
+var_dump(
+    $register,
+    $register->getUser(),
+    $register->getAddress()
+);
