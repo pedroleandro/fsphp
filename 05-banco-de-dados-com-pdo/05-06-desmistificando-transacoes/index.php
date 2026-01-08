@@ -1,4 +1,5 @@
 <?php
+global $connect;
 require __DIR__ . '/../../fullstackphp/fsphp.php';
 fullStackPHPClassName("05.06 - Desmistificando transações");
 
@@ -22,3 +23,32 @@ use Source\Database\Connect;
  * persistir no banco de dados (Uma transação só tem sentido se houver gravação)
  */
 fullStackPHPClassSession("transaction", __LINE__);
+
+try{
+
+    $connect = Connect::getInstance();
+    $connect->beginTransaction();
+
+    $insertUser = "
+        INSERT INTO users (first_name, last_name, email, document)
+        VALUES('Pedro', 'Silva', 'pedro@outlook.com', null);
+    ";
+
+    $connect->query($insertUser);
+
+    $userId = $connect->lastInsertId();
+
+    $insertAddress = "
+        INSERT INTO users_address (user_id, street, number, complement)
+        VALUES({$userId}, 'Rua dos Inimigos', '377', 'Ap');
+    ";
+    $connect->query($insertAddress);
+
+    $connect->commit();
+
+    echo "<p class='trigger accept'>Cadastro realizado com sucesso!</p>";
+
+}catch (PDOException $PDOException){
+    $connect->rollBack();
+    var_dump($PDOException);
+}
