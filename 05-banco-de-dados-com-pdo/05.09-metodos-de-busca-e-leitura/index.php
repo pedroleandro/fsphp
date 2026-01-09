@@ -9,15 +9,32 @@ require __DIR__ . "/../source/autoload.php";
  */
 fullStackPHPClassSession("load", __LINE__);
 
+$userRepository = new \Source\Models\User();
+
+$user = $userRepository->findById(1);
+
+var_dump($user);
 
 /*
  * [ find ] Por indexes da tabela (email)
  */
 fullStackPHPClassSession("find", __LINE__);
 
+$userRepository = new \Source\Models\User();
+
+$user = $userRepository->findByEmail("robson1@email.com.br");
+
+var_dump($user);
+
 
 /*
  * [ all ] Retorna diversos registros
  */
 fullStackPHPClassSession("all", __LINE__);
+
+$userRepository = new \Source\Models\User();
+
+$user = $userRepository->findAll();
+
+var_dump($user);
 

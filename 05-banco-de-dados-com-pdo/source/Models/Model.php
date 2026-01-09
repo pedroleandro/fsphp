@@ -2,13 +2,17 @@
 
 namespace Source\Models;
 
+use PDO;
+use PDOStatement;
+use Source\Database\Connect;
+
 abstract class Model
 {
-    protected object|null $data;
+    protected $data;
 
-    protected \PDOException|null $fail;
+    protected $fail;
 
-    protected string|null $message;
+    protected $message;
 
     public function getData(): ?object
     {
@@ -30,9 +34,26 @@ abstract class Model
 
     }
 
-    protected function read()
+    protected function read(string $query, ?string $params = null): ?PDOStatement
     {
+        try {
+            $statement = Connect::getInstance()->prepare($query);
 
+            if ($params) {
+                parse_str($params, $params);
+                foreach ($params as $key => $value) {
+                    $type = is_numeric($value) ? PDO::PARAM_INT : PDO::PARAM_STR;
+                    $statement->bindValue(":$key", $value, $type);
+                }
+            }
+
+            $statement->execute();
+            return $statement;
+        } catch (\PDOException $PDOException) {
+            var_dump($PDOException);
+            $this->fail = $PDOException;
+            return null;
+        }
     }
 
     protected function update()
@@ -45,7 +66,7 @@ abstract class Model
 
     }
 
-    protected function safe():?array
+    protected function safe(): ?array
     {
 
     }
