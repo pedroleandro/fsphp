@@ -1,6 +1,6 @@
 <?php
 require __DIR__ . '/../../fullstackphp/fsphp.php';
-fullStackPHPClassName("05.10 - Model bootstrap e cadastro");
+fullStackPHPClassName("05.10 - Models bootstrap e cadastro");
 
 require __DIR__ . "/../source/autoload.php";
 
