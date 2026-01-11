@@ -13,15 +13,19 @@ class User extends Model
     private string $lastName;
     private string $email;
     private ?int $document;
-    private string|DateTime $createdAt;
-    private string|DateTime $updatedAt;
+    private string|DateTime|null $createdAt;
+    private string|DateTime|null $updatedAt;
     protected static array $safe = ["id", "created_at", "updated_at"];
 
     protected static string $entity = "users";
 
-    public function bootstrap()
+    public function bootstrap(string $firstName, string $lastName, string $email, ?int $document = null): ?User
     {
-
+        $this->firstName = $firstName;
+        $this->lastName = $lastName;
+        $this->email = $email;
+        $this->document = $document;
+        return $this;
     }
 
     public function findById(int $id, string $columns = '*'): ?User
@@ -123,6 +127,47 @@ class User extends Model
 
     public function save()
     {
+        $this->data = (object) [
+            "first_name" => $this->firstName,
+            "last_name"  => $this->lastName,
+            "email"      => $this->email,
+            "document"   => $this->document
+        ];
+
+        /**
+         * User Create
+         */
+        if(empty($this->id))
+        {
+            if($this->findByEmail($this->email)){
+                $this->message = "O e-mail informado já está cadastrado!";
+                return null;
+            }
+
+            $userId = $this->create(self::$entity, $this->safe());
+
+            if(!$userId){
+                $this->message = "Erro ao cadastrar, verifique os dados!";
+                return null;
+            }
+
+            $this->message = "Cadastro realizado com sucesso!";
+        }
+
+        /**
+         * User Update
+         */
+        if(!empty($this->id))
+        {
+            $userId =$this->id;
+        }
+
+        $this->data = $this->read(
+            "SELECT * FROM " . self::$entity . " WHERE id = :id LIMIT 1",
+            "id={$userId}"
+        )->fetch(PDO::FETCH_OBJ);
+
+        return $this;
 
     }
 
@@ -186,22 +231,22 @@ class User extends Model
         $this->document = $document;
     }
 
-    public function getCreatedAt(): string|DateTime
+    public function getCreatedAt(): string|DateTime|null
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(string|DateTime $createdAt): void
+    public function setCreatedAt(string|DateTime|null $createdAt): void
     {
         $this->createdAt = $createdAt;
     }
 
-    public function getUpdatedAt(): string|DateTime
+    public function getUpdatedAt(): string|DateTime|null
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(string|DateTime $updatedAt): void
+    public function setUpdatedAt(string|DateTime|null $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
     }
