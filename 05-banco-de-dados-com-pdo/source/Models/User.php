@@ -187,9 +187,29 @@ class User extends Model
 
     }
 
-    public function destroy()
+    public function destroy(): bool
     {
+        if (empty($this->id)) {
+            $this->message = "Usuário não identificado para exclusão.";
+            return false;
+        }
 
+        $delete = $this->delete(
+            self::$entity,
+            "id = :id",
+            "id={$this->id}"
+        );
+
+        if (!$delete) {
+            $this->message = "Erro ao remover o usuário.";
+            return false;
+        }
+
+        $this->message = "Usuário removido com sucesso!";
+        $this->data = null;
+        $this->id = 0;
+
+        return true;
     }
 
     private function required()
