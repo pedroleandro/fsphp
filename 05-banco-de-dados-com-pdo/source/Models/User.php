@@ -127,6 +127,10 @@ class User extends Model
 
     public function save()
     {
+        if (!$this->required()) {
+            return null;
+        }
+
         $this->data = (object) [
             "first_name" => $this->firstName,
             "last_name"  => $this->lastName,
@@ -212,9 +216,29 @@ class User extends Model
         return true;
     }
 
-    private function required()
+    private function required(): bool
     {
+        if (empty($this->firstName)) {
+            $this->message = "O nome é obrigatório.";
+            return false;
+        }
 
+        if (empty($this->lastName)) {
+            $this->message = "O sobrenome é obrigatório.";
+            return false;
+        }
+
+        if (empty($this->email)) {
+            $this->message = "O e-mail é obrigatório.";
+            return false;
+        }
+
+        if (!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
+            $this->message = "O e-mail informado é inválido.";
+            return false;
+        }
+
+        return true;
     }
 
     public function getId(): int
