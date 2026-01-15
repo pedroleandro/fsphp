@@ -74,9 +74,38 @@ abstract class Model
         }
     }
 
-    protected function update()
+    protected function update(string $entity, array $data, string $terms, string $params): bool
     {
+        try {
+            $set = [];
 
+            foreach (array_keys($data) as $column) {
+                $set[] = "{$column} = :{$column}";
+            }
+
+            $set = implode(", ", $set);
+
+            $stmt = Connect::getInstance()->prepare(
+                "UPDATE {$entity} SET {$set} WHERE {$terms}"
+            );
+
+            foreach ($data as $key => $value) {
+                $type = is_numeric($value) ? PDO::PARAM_INT : PDO::PARAM_STR;
+                $stmt->bindValue(":{$key}", $value, $type);
+            }
+
+            parse_str($params, $params);
+
+            foreach ($params as $key => $value) {
+                $type = is_numeric($value) ? PDO::PARAM_INT : PDO::PARAM_STR;
+                $stmt->bindValue(":{$key}", $value, $type);
+            }
+
+            return $stmt->execute();
+        } catch (\PDOException $e) {
+            $this->fail = $e;
+            return false;
+        }
     }
 
     protected function delete()
