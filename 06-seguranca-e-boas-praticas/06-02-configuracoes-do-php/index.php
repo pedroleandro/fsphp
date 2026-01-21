@@ -101,6 +101,10 @@ var_dump([
  */
 fullStackPHPClassSession("opcache", __LINE__);
 
+/**
+ * Foi necessário ativar no php.ini descomentando a linha que contém zend_extension=opcache
+ */
+
 var_dump(
     opcache_get_configuration(),
     opcache_get_status()["scripts"]
