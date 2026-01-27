@@ -89,7 +89,7 @@ if ($a || $b || $c || $d || $e) {
  */
 fullStackPHPClassSession("tipo callback", __LINE__);
 
-$code = "<article><h1>Um Call User Function</h1></article>";
+$code = "<article><h1>Um Call UserModel Function</h1></article>";
 $codeClear = call_user_func("strip_tags", $code);
 var_dump($code, $codeClear);
 

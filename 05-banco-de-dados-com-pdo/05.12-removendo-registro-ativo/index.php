@@ -9,7 +9,7 @@ require __DIR__ . "/../source/autoload.php";
  */
 fullStackPHPClassSession("destroy", __LINE__);
 
-//$model = new \Source\Models\User();
+//$model = new \Source\Models\UserModel();
 //
 //$user = $model->findById(2);
 //
@@ -17,13 +17,13 @@ fullStackPHPClassSession("destroy", __LINE__);
 //
 //var_dump($user);
 
-$model = new \Source\Models\User();
+$model = new \source\Models\UserModel();
 
 /**
  * Cenário 1: tentando salvar sem dados obrigatórios
  */
 
-//$user = new \Source\Models\User();
+//$user = new \Source\Models\UserModel();
 //$user->save();
 //
 //var_dump($user->getMessage());
@@ -32,7 +32,7 @@ $model = new \Source\Models\User();
  * Cenário 2: Tentando salvar com e-mail inválido
  */
 
-//$user = new \Source\Models\User();
+//$user = new \Source\Models\UserModel();
 //$user->bootstrap("Pedro", "Silva", "email_invalido");
 //$user->save();
 //
@@ -42,7 +42,7 @@ $model = new \Source\Models\User();
  * Cenário 3: Testando com dados válidos
  */
 
-$user = new \Source\Models\User();
+$user = new \source\Models\UserModel();
 $user->bootstrap("Pedro", "Silva", "pedro@email.com");
 $user->save();
 

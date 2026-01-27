@@ -4,9 +4,9 @@ namespace Source\Models;
 
 use DateTime;
 use PDO;
-use \Source\Core\Model;
+use Source\Core\Model;
 
-class User extends Model
+class UserModel extends Model
 {
 
     private int $id;
@@ -20,7 +20,7 @@ class User extends Model
 
     protected static string $entity = "users";
 
-    public function bootstrap(string $firstName, string $lastName, string $email, ?int $document = null): ?User
+    public function bootstrap(string $firstName, string $lastName, string $email, ?int $document = null): ?UserModel
     {
         $this->firstName = $firstName;
         $this->lastName = $lastName;
@@ -29,7 +29,7 @@ class User extends Model
         return $this;
     }
 
-    public function findById(int $id, string $columns = '*'): ?User
+    public function findById(int $id, string $columns = '*'): ?UserModel
     {
         $query = "SELECT {$columns} FROM " . self::$entity . " WHERE id = :id LIMIT 1";
         $stmt = $this->read($query, "id={$id}");
@@ -46,7 +46,7 @@ class User extends Model
             return null;
         }
 
-        $user = new User();
+        $user = new UserModel();
 
         foreach ($data as $column => $value) {
             $method = 'set' . str_replace('_', '', ucwords($column, '_'));
@@ -59,7 +59,7 @@ class User extends Model
         return $user;
     }
 
-    public function findByEmail(string $email, string $columns = '*'): ?User
+    public function findByEmail(string $email, string $columns = '*'): ?UserModel
     {
         $query = "SELECT {$columns} FROM " . self::$entity . " WHERE email = :email LIMIT 1";
         $stmt = $this->read($query, "email={$email}");
@@ -76,7 +76,7 @@ class User extends Model
             return null;
         }
 
-        $user = new User();
+        $user = new UserModel();
 
         foreach ($data as $column => $value) {
             $method = 'set' . str_replace('_', '', ucwords($column, '_'));
@@ -110,7 +110,7 @@ class User extends Model
         $users = [];
 
         foreach ($rows as $row) {
-            $user = new User();
+            $user = new UserModel();
 
             foreach ($row as $column => $value) {
                 $method = 'set' . str_replace('_', '', ucwords($column, '_'));
@@ -140,7 +140,7 @@ class User extends Model
         ];
 
         /**
-         * User Create
+         * UserModel Create
          */
         if(empty($this->id))
         {
@@ -160,7 +160,7 @@ class User extends Model
         }
 
         /**
-         * User Update
+         * UserModel Update
          */
         if(!empty($this->id))
         {

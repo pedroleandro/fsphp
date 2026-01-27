@@ -2,7 +2,7 @@
 require __DIR__ . '/../../fullstackphp/fsphp.php';
 fullStackPHPClassName("06.03 - Configurações do projeto");
 
-require __DIR__ . "/source/autoload.php";
+require __DIR__ . "/../source/autoload.php";
 
 /*
  * [ configurações ] Um acesso global a tudo que pode ser configurado no projeto.
@@ -14,7 +14,7 @@ var_dump(
 );
 
 use Source\Core\Connect;
-use Source\Models\User;
+use Source\Models\UserModel;
 
 $read = Connect::getInstance()->query("SELECT * FROM users LIMIT 1");
 $read->execute();
@@ -23,7 +23,7 @@ var_dump(
     $read->fetchAll()
 );
 
-$user = (new User())->findById(1);
+$user = (new UserModel())->findById(1);
 
 var_dump($user);
 

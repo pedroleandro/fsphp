@@ -8,7 +8,7 @@ fullStackPHPClassName("04.04 - Carregamento automático");
 fullStackPHPClassSession("autoload spl psr-4", __LINE__);
 
 //require __DIR__ . "/source/Loading/Address.php";
-//require __DIR__ . "/source/Loading/User.php";
+//require __DIR__ . "/source/Loading/UserModel.php";
 //require __DIR__ . "/source/Loading/Company.php";
 
 use \Source\Loading\Address;

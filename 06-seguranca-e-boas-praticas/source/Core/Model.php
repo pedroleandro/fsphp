@@ -4,7 +4,6 @@ namespace Source\Core;
 
 use PDO;
 use PDOStatement;
-use Source\Core\Connect;
 
 abstract class Model
 {

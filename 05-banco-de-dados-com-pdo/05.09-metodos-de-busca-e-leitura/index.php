@@ -9,7 +9,7 @@ require __DIR__ . "/../source/autoload.php";
  */
 fullStackPHPClassSession("load", __LINE__);
 
-$userRepository = new \Source\Models\User();
+$userRepository = new \source\Models\UserModel();
 
 $user = $userRepository->findById(1);
 
@@ -20,7 +20,7 @@ var_dump($user);
  */
 fullStackPHPClassSession("find", __LINE__);
 
-$userRepository = new \Source\Models\User();
+$userRepository = new \source\Models\UserModel();
 
 $user = $userRepository->findByEmail("robson1@email.com.br");
 
@@ -32,7 +32,7 @@ var_dump($user);
  */
 fullStackPHPClassSession("all", __LINE__);
 
-$userRepository = new \Source\Models\User();
+$userRepository = new \source\Models\UserModel();
 
 $user = $userRepository->findAll();
 

@@ -2582,7 +2582,7 @@ class PHPMailer
      * @param array  $addr An array of recipients,
      *                     where each recipient is a 2-element indexed array with element 0 containing an address
      *                     and element 1 containing a name, like:
-     *                     [['joe@example.com', 'Joe User'], ['zoe@example.com', 'Zoe User']]
+     *                     [['joe@example.com', 'Joe UserModel'], ['zoe@example.com', 'Zoe UserModel']]
      *
      * @return string
      */
@@ -2600,7 +2600,7 @@ class PHPMailer
      * Format an address for use in a message header.
      *
      * @param array $addr A 2-element indexed array, element 0 containing an address, element 1 containing a name like
-     *                    ['joe@example.com', 'Joe User']
+     *                    ['joe@example.com', 'Joe UserModel']
      *
      * @return string
      */
