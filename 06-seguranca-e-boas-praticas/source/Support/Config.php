@@ -22,3 +22,8 @@ define("CONFIG_URL_ERROR", CONFIG_URL_BASE . "/404");
 define("CONFIG_DATE_BR", "d/m/Y H:i:s");
 define("CONFIG_DATE_APP", "Y-m-d H:i:s");
 
+/**
+ * SESSION
+ */
+define("CONFIG_SESSION_PATH", __DIR__ .  "/../../storage/sessions");
+

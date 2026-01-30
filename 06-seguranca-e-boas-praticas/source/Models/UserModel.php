@@ -8,7 +8,6 @@ use Source\Core\Model;
 
 class UserModel extends Model
 {
-
     private int $id;
     private string $firstName;
     private string $lastName;
@@ -27,6 +26,19 @@ class UserModel extends Model
         $this->email = $email;
         $this->document = $document;
         return $this;
+    }
+
+    public function data()
+    {
+        return (object)[
+            "id" => $this->id,
+            "firstName" => $this->firstName,
+            "lastName" => $this->lastName,
+            "email" => $this->email,
+            "document" => $this->document,
+            "createdAt" => $this->createdAt,
+            "updatedAt" => $this->updatedAt
+        ];
     }
 
     public function findById(int $id, string $columns = '*'): ?UserModel
