@@ -80,6 +80,7 @@ p {
     font-size: 0.75em;
 }
 
+.trigger.success,
 .trigger.accept {
     color: var(--green);
     border-color: var(--green);
@@ -93,6 +94,11 @@ p {
 .trigger.error {
     color: var(--red);
     border-color: var(--red);
+}
+
+.trigger.info {
+    color: var(--blue);
+    border-color: var(--blue);
 }
 
 .code {

@@ -27,3 +27,13 @@ define("CONFIG_DATE_APP", "Y-m-d H:i:s");
  */
 define("CONFIG_SESSION_PATH", __DIR__ .  "/../../storage/sessions");
 
+
+/**
+ * MESSAGES
+ */
+define("CONFIG_MESSAGE_CLASS", "trigger");
+define("CONFIG_MESSAGE_INFO", "info");
+define("CONFIG_MESSAGE_SUCESS", "success");
+define("CONFIG_MESSAGE_WARNING", "warning");
+define("CONFIG_MESSAGE_ERROR", "error");
+

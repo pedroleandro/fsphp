@@ -58,4 +58,14 @@ class Session
         session_destroy();
         return $this;
     }
+
+    public function flash(): ?Message
+    {
+        if($this->has("flash")){
+            $flash = $this->flash;
+            $this->unset("flash");
+            return $flash;
+        }
+        return null;
+    }
 }
