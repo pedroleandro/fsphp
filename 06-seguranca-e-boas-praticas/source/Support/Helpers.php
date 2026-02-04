@@ -42,3 +42,32 @@ function str_camel_case(string $string): string
 {
     return lcfirst(str_studly_case($string));
 }
+
+function str_title(string $string): string
+{
+    return mb_convert_case(filter_var($string, FILTER_UNSAFE_RAW), MB_CASE_TITLE, "UTF-8");
+}
+
+function str_limit_words(string $string, int $limit, string $pointer = "..."): string
+{
+    $string = trim(filter_var($string, FILTER_UNSAFE_RAW));
+    $arrWords = explode(" ", $string);
+    $numWords = count($arrWords);
+
+    if($numWords < $limit){
+        return $string;
+    }
+
+    return implode(" ", array_slice($arrWords, 0, $limit)) . $pointer;
+}
+
+function str_limit_chars(string $string, int $limit, string $pointer = "..."): string
+{
+    $string = trim(filter_var($string, FILTER_UNSAFE_RAW));
+    if(mb_strlen($string) <= $limit){
+        return $string;
+    }
+
+    $chars = mb_substr($string, 0, mb_strrpos(mb_substr($string, 0, $limit), " "));
+    return $chars . $pointer;
+}
