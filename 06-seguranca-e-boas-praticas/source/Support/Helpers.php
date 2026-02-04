@@ -1,6 +1,22 @@
 <?php
 
 /**
+ * ###################
+ * ###   VLIDATE   ###
+ * ###################
+ */
+
+function is_email(string $email): bool
+{
+    return filter_var($email, FILTER_VALIDATE_EMAIL);
+}
+
+function is_password(string $password): bool
+{
+    return (mb_strlen($password) >= CONFIG_PASSWORD_MIN_LENGHT && mb_strlen($password) <= CONFIG_PASSWORD_MAX_LENGHT) ? true : false;
+}
+
+/**
  * ##################
  * ###   STRING   ###
  * ##################
@@ -70,4 +86,54 @@ function str_limit_chars(string $string, int $limit, string $pointer = "..."): s
 
     $chars = mb_substr($string, 0, mb_strrpos(mb_substr($string, 0, $limit), " "));
     return $chars . $pointer;
+}
+
+/**
+ * ######################
+ * ###   NAVIGATION   ###
+ * ######################
+ */
+
+function url(string $path): string
+{
+    return CONFIG_URL_BASE . "/" . ($path[0] == "/" ? mb_substr($path, 1) : $path);
+}
+
+function redirect(string $url): void
+{
+    header("HTTP/1.1 302 Redirect");
+    if(filter_var($url, FILTER_VALIDATE_URL)){
+        header("Location: $url");
+        exit;
+    }
+
+    $location = url($url);
+    header("Location: {$location}");
+    exit;
+}
+
+/**
+ * ####################
+ * ###   TRIGGERS   ###
+ * ####################
+ */
+
+function db(): PDO
+{
+    return \Source\Core\Connect::getInstance();
+}
+
+function message(): \Source\Core\Message
+{
+    return new \Source\Core\Message();
+}
+
+function session(): \Source\Core\Session
+{
+    return new \Source\Core\Session();
+}
+
+function user(): \Source\Models\UserModel
+{
+    return new \Source\Models\UserModel();
 }

@@ -13,6 +13,7 @@ define("CONFIG_DB_PORT", "3306");
  * URLS
  */
 define("CONFIG_URL_BASE", "http://localhost/upinside/fsphp");
+//define("CONFIG_URL_BASE", "http://localhost/upinside/fsphp/06-seguranca-e-boas-praticas/06-08-camada-de-manipulacao-pt3");
 define("CONFIG_URL_ADMIN", CONFIG_URL_BASE . "/admin");
 define("CONFIG_URL_ERROR", CONFIG_URL_BASE . "/404");
 
@@ -27,6 +28,11 @@ define("CONFIG_DATE_APP", "Y-m-d H:i:s");
  */
 define("CONFIG_SESSION_PATH", __DIR__ .  "/../../storage/sessions");
 
+/**
+ * PASSWORD
+ */
+define("CONFIG_PASSWORD_MIN_LENGHT", 8);
+define("CONFIG_PASSWORD_MAX_LENGHT", 40);
 
 /**
  * MESSAGES
