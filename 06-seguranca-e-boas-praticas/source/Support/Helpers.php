@@ -16,6 +16,21 @@ function is_password(string $password): bool
     return (mb_strlen($password) >= CONFIG_PASSWORD_MIN_LENGHT && mb_strlen($password) <= CONFIG_PASSWORD_MAX_LENGHT) ? true : false;
 }
 
+function password(string $password): string
+{
+    return password_hash($password, CONFIG_PASSWORD_ALGO, CONFIG_PASSWORD_OPTIONS);
+}
+
+//function password_verify(string $password, string $passwordHash): bool
+//{
+//    return password_verify($password, $passwordHash);
+//}
+
+function password_rehash(string $passwordHash): bool
+{
+    return password_needs_rehash($passwordHash, CONFIG_PASSWORD_ALGO, CONFIG_PASSWORD_OPTIONS);
+}
+
 /**
  * ##################
  * ###   STRING   ###

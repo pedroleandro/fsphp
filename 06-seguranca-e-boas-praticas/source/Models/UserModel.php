@@ -12,6 +12,7 @@ class UserModel extends Model
     private string $firstName;
     private string $lastName;
     private string $email;
+    private string $password;
     private ?int $document;
     private string|DateTime|null $createdAt;
     private string|DateTime|null $updatedAt;
@@ -19,11 +20,12 @@ class UserModel extends Model
 
     protected static string $entity = "users";
 
-    public function bootstrap(string $firstName, string $lastName, string $email, ?int $document = null): ?UserModel
+    public function bootstrap(string $firstName, string $lastName, string $email, ?string $password, ?int $document = null): ?UserModel
     {
         $this->firstName = $firstName;
         $this->lastName = $lastName;
         $this->email = $email;
+        $this->setPassword($password);
         $this->document = $document;
         return $this;
     }
@@ -35,6 +37,7 @@ class UserModel extends Model
             "firstName" => $this->firstName,
             "lastName" => $this->lastName,
             "email" => $this->email,
+            "password" => $this->password,
             "document" => $this->document,
             "createdAt" => $this->createdAt,
             "updatedAt" => $this->updatedAt
@@ -144,10 +147,16 @@ class UserModel extends Model
             return null;
         }
 
+        if (empty($this->password)) {
+            $this->message = "A senha é obrigatória.";
+            return null;
+        }
+
         $this->data = (object) [
             "first_name" => $this->firstName,
             "last_name"  => $this->lastName,
             "email"      => $this->email,
+            "password" => $this->password,
             "document"   => $this->document
         ];
 
@@ -161,7 +170,7 @@ class UserModel extends Model
                 return null;
             }
 
-            $userId = $this->create(self::$entity, $this->safe());
+            $userId = $this->create(self::$entity, (array) $this->data);
 
             if(!$userId){
                 $this->message = "Erro ao cadastrar, verifique os dados!";
@@ -178,9 +187,12 @@ class UserModel extends Model
         {
             $userId =$this->id;
 
-            $email = $this->read("SELECT id FROM " . self::$entity . " WHERE email = :email AND id =:id", "email={$this->email}&id={$userId}");
+            $email = $this->read(
+                "SELECT id FROM " . self::$entity . " WHERE email = :email AND id != :id",
+                "email={$this->email}&id={$userId}"
+            );
 
-            if($email->rowCount()){
+            if ($email && $email->rowCount()) {
                 $this->message = "O e-mail informado já está cadastrado!";
                 return null;
             }
@@ -292,6 +304,16 @@ class UserModel extends Model
     public function setEmail(string $email): void
     {
         $this->email = $email;
+    }
+
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): void
+    {
+        $this->password = password_hash($password, PASSWORD_DEFAULT);
     }
 
     public function getDocument(): int
