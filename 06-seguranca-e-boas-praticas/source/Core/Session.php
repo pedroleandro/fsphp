@@ -68,4 +68,9 @@ class Session
         }
         return null;
     }
+
+    public function csrf()
+    {
+        $_SESSION['csrf_token'] = base64_encode(random_bytes(32));
+    }
 }

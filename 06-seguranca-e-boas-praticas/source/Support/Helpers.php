@@ -1,9 +1,9 @@
 <?php
 
 /**
- * ###################
- * ###   VLIDATE   ###
- * ###################
+ * ####################
+ * ###   VALIDATE   ###
+ * ####################
  */
 
 function is_email(string $email): bool
@@ -31,6 +31,21 @@ function password_rehash(string $passwordHash): bool
     return password_needs_rehash($passwordHash, CONFIG_PASSWORD_ALGO, CONFIG_PASSWORD_OPTIONS);
 }
 
+function csrf_input(): string
+{
+    session()->csrf();
+    return "<input type='hidden' name='csrf_token' value='" . (session()->csrf_token ?? "") . "'/>";
+}
+
+function csrf_verify(array $request): bool
+{
+    if(empty(session()->csrf_token) || empty($request['csrf_token']) || $request['csrf_token'] != session()->csrf_token){
+        return false;
+    }
+
+    return true;
+}
+
 /**
  * ##################
  * ###   STRING   ###
@@ -41,14 +56,14 @@ function str_slug(string $string): string
     $string = mb_strtolower($string, 'UTF-8');
 
     $map = [
-        'à'=>'a','á'=>'a','â'=>'a','ã'=>'a','ä'=>'a',
-        'ç'=>'c',
-        'è'=>'e','é'=>'e','ê'=>'e','ë'=>'e',
-        'ì'=>'i','í'=>'i','î'=>'i','ï'=>'i',
-        'ñ'=>'n',
-        'ò'=>'o','ó'=>'o','ô'=>'o','õ'=>'o','ö'=>'o',
-        'ù'=>'u','ú'=>'u','û'=>'u','ü'=>'u',
-        'ý'=>'y','ÿ'=>'y'
+        'à' => 'a', 'á' => 'a', 'â' => 'a', 'ã' => 'a', 'ä' => 'a',
+        'ç' => 'c',
+        'è' => 'e', 'é' => 'e', 'ê' => 'e', 'ë' => 'e',
+        'ì' => 'i', 'í' => 'i', 'î' => 'i', 'ï' => 'i',
+        'ñ' => 'n',
+        'ò' => 'o', 'ó' => 'o', 'ô' => 'o', 'õ' => 'o', 'ö' => 'o',
+        'ù' => 'u', 'ú' => 'u', 'û' => 'u', 'ü' => 'u',
+        'ý' => 'y', 'ÿ' => 'y'
     ];
     $string = strtr($string, $map);
 
@@ -66,7 +81,7 @@ function str_studly_case(string $string): string
 {
     $string = str_slug($string);
 
-    return str_replace(" ","", mb_convert_case(str_replace("-", " ", $string), MB_CASE_TITLE, "UTF-8"));
+    return str_replace(" ", "", mb_convert_case(str_replace("-", " ", $string), MB_CASE_TITLE, "UTF-8"));
 }
 
 function str_camel_case(string $string): string
@@ -85,7 +100,7 @@ function str_limit_words(string $string, int $limit, string $pointer = "..."): s
     $arrWords = explode(" ", $string);
     $numWords = count($arrWords);
 
-    if($numWords < $limit){
+    if ($numWords < $limit) {
         return $string;
     }
 
@@ -95,7 +110,7 @@ function str_limit_words(string $string, int $limit, string $pointer = "..."): s
 function str_limit_chars(string $string, int $limit, string $pointer = "..."): string
 {
     $string = trim(filter_var($string, FILTER_UNSAFE_RAW));
-    if(mb_strlen($string) <= $limit){
+    if (mb_strlen($string) <= $limit) {
         return $string;
     }
 
@@ -117,7 +132,7 @@ function url(string $path): string
 function redirect(string $url): void
 {
     header("HTTP/1.1 302 Redirect");
-    if(filter_var($url, FILTER_VALIDATE_URL)){
+    if (filter_var($url, FILTER_VALIDATE_URL)) {
         header("Location: $url");
         exit;
     }
