@@ -4,14 +4,18 @@ namespace Source\Core;
 
 use PDO;
 use PDOStatement;
+use Source\Core\Message;
 
 abstract class Model
 {
-    protected $data;
+    protected ?object $data = null;
+    protected ?\PDOException $fail = null;
+    protected Message $message;
 
-    protected $fail;
-
-    protected $message;
+    public function __construct()
+    {
+        $this->message = new Message();
+    }
 
     public function getData(): ?object
     {
@@ -23,7 +27,7 @@ abstract class Model
         return $this->fail;
     }
 
-    public function getMessage(): ?string
+    public function getMessage(): ?Message
     {
         return $this->message;
     }
@@ -67,7 +71,6 @@ abstract class Model
             $statement->execute();
             return $statement;
         } catch (\PDOException $PDOException) {
-            var_dump($PDOException);
             $this->fail = $PDOException;
             return null;
         }
@@ -147,4 +150,36 @@ abstract class Model
 
         return $filter;
     }
+
+    protected function required(): bool
+    {
+        var_dump($this->data());
+
+        $data = (array)$this->data();
+
+        foreach (static::$required as $field){
+            if(empty($data[$field])){
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    protected function hydrate(array $data): static
+    {
+        $model = new static();
+
+        foreach ($data as $column => $value) {
+            $method = 'set' . str_replace('_', '', ucwords($column, '_'));
+
+            if (method_exists($model, $method)) {
+                $model->$method($value);
+            }
+        }
+
+        return $model;
+    }
+
+    abstract protected function data();
 }
