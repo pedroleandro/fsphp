@@ -1,0 +1,28 @@
+{
+  "name": "pedroleandro/fsphp",
+  "description": "Formação FullStack PHP Developer",
+  "minimun-stability": "stable",
+  "authors": [
+    {
+      "name": "Pedro Leandro Gomes da Silva",
+      "email": "pedroleandrogomesdasilva@outlook.com",
+      "homepage": "https://github.com/pedroleandro",
+      "role": "Professor e Desenvolvedor"
+    }
+  ],
+  "config": {
+    "vendor-dir": "vendor"
+  },
+  "autoload": {
+    "psr-4": {
+      "Source\\": "source/"
+    },
+    "files": [
+      "source/Support/Config.php",
+      "source/Support/Helpers.php"
+    ]
+  },
+  "require": {
+
+  }
+}

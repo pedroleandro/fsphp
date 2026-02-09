@@ -1,1 +1,0 @@
-login|O:8:"stdClass":8:{s:2:"id";i:1;s:9:"firstName";s:6:"Robson";s:8:"lastName";s:6:"Santos";s:5:"email";s:20:"robson1@email.com.br";s:8:"password";s:60:"$2y$10$xfBzZ/r/psYxISQn3MHTqexlH.Sl.YWWldfKDvyKT.f3eIU3Q1VW.";s:8:"document";N;s:9:"createdAt";s:19:"2026-01-09 00:46:57";s:9:"updatedAt";s:19:"2026-02-05 10:59:35";}
