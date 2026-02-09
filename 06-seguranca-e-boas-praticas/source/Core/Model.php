@@ -63,8 +63,11 @@ abstract class Model
             if ($params) {
                 parse_str($params, $params);
                 foreach ($params as $key => $value) {
-                    $type = is_numeric($value) ? PDO::PARAM_INT : PDO::PARAM_STR;
-                    $statement->bindValue(":$key", $value, $type);
+                    if($key == "limit" || $key == "offset") {
+                        $statement->bindValue(":$key", $value, \PDO::PARAM_INT);
+                    }else{
+                        $statement->bindValue(":$key", $value, \PDO::PARAM_STR);
+                    }
                 }
             }
 
@@ -87,23 +90,26 @@ abstract class Model
 
             $set = implode(", ", $set);
 
-            $stmt = Connect::getInstance()->prepare(
+            $statement = Connect::getInstance()->prepare(
                 "UPDATE {$entity} SET {$set} WHERE {$terms}"
             );
 
             foreach ($data as $key => $value) {
-                $type = is_numeric($value) ? PDO::PARAM_INT : PDO::PARAM_STR;
-                $stmt->bindValue(":{$key}", $value, $type);
+                if($key == "limit" || $key == "offset") {
+                    $statement->bindValue(":$key", $value, \PDO::PARAM_INT);
+                }else{
+                    $statement->bindValue(":$key", $value, \PDO::PARAM_STR);
+                }
             }
 
             parse_str($params, $params);
 
             foreach ($params as $key => $value) {
                 $type = is_numeric($value) ? PDO::PARAM_INT : PDO::PARAM_STR;
-                $stmt->bindValue(":{$key}", $value, $type);
+                $statement->bindValue(":{$key}", $value, $type);
             }
 
-            return $stmt->execute();
+            return $statement->execute();
         } catch (\PDOException $e) {
             $this->fail = $e;
             return false;
@@ -113,18 +119,21 @@ abstract class Model
     protected function delete(string $entity, string $terms, string $params): bool
     {
         try {
-            $stmt = Connect::getInstance()->prepare(
+            $statement = Connect::getInstance()->prepare(
                 "DELETE FROM {$entity} WHERE {$terms}"
             );
 
             parse_str($params, $params);
 
             foreach ($params as $key => $value) {
-                $type = is_numeric($value) ? PDO::PARAM_INT : PDO::PARAM_STR;
-                $stmt->bindValue(":{$key}", $value, $type);
+                if($key == "limit" || $key == "offset") {
+                    $statement->bindValue(":$key", $value, \PDO::PARAM_INT);
+                }else{
+                    $statement->bindValue(":$key", $value, \PDO::PARAM_STR);
+                }
             }
 
-            return $stmt->execute();
+            return $statement->execute();
         } catch (\PDOException $e) {
             $this->fail = $e;
             return false;
