@@ -13,6 +13,10 @@ function is_email(string $email): bool
 
 function is_password(string $password): bool
 {
+    if(password_get_info($password)['algo'] !== 'bcrypt') {
+        return true;
+    }
+
     return (mb_strlen($password) >= CONFIG_PASSWORD_MIN_LENGHT && mb_strlen($password) <= CONFIG_PASSWORD_MAX_LENGHT) ? true : false;
 }
 
