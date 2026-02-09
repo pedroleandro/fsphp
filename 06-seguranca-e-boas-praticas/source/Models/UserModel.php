@@ -25,7 +25,7 @@ class UserModel extends Model
         $this->firstName = $firstName;
         $this->lastName = $lastName;
         $this->email = $email;
-        $this->setPassword($password);
+        $this->password = $password;
         $this->document = $document;
         return $this;
     }
@@ -121,27 +121,45 @@ class UserModel extends Model
             return null;
         }
 
-        if (empty($this->password)) {
-            $this->message->warning("A senha é obrigatória.");
+        if(!is_email($this->email)){
+            $this->message->warning("O e-mail informado não é válido!");
             return null;
         }
-
-        $this->data = (object)[
-            "first_name" => $this->firstName,
-            "last_name" => $this->lastName,
-            "email" => $this->email,
-            "password" => $this->password,
-            "document" => $this->document ?? null
-        ];
 
         /**
          * UserModel Create
          */
         if (empty($this->id)) {
+
+            if (empty($this->password)) {
+                $this->message->warning("A senha é obrigatória.");
+                return null;
+            }
+
+            if (!is_password($this->password)) {
+                $min = CONFIG_PASSWORD_MIN_LENGHT;
+                $max = CONFIG_PASSWORD_MAX_LENGHT;
+
+                $this->message->warning(
+                    "A senha deve ter entre {$min} e {$max} caracteres!"
+                );
+                return null;
+            }
+
             if ($this->findByEmail($this->email)) {
                 $this->message->warning("O e-mail informado já está cadastrado!");
                 return null;
             }
+
+            $this->password = password_hash($this->password, PASSWORD_DEFAULT);
+
+            $this->data = (object)[
+                "first_name" => $this->firstName,
+                "last_name"  => $this->lastName,
+                "email"      => $this->email,
+                "password"   => $this->password,
+                "document"   => $this->document ?? null
+            ];
 
             $userId = $this->create(self::$entity, (array)$this->data);
 
@@ -159,8 +177,6 @@ class UserModel extends Model
         if (!empty($this->id)) {
             $userId = $this->id;
 
-            var_dump($userId);
-
             $email = $this->read(
                 "SELECT id FROM " . self::$entity . " WHERE email = :email AND id != :id",
                 "email={$this->email}&id={$userId}"
@@ -169,6 +185,22 @@ class UserModel extends Model
             if ($email && $email->rowCount()) {
                 $this->message->warning("O e-mail informado já está cadastrado!");
                 return null;
+            }
+
+            $this->data = (object)[
+                "first_name" => $this->firstName,
+                "last_name"  => $this->lastName,
+                "email"      => $this->email,
+                "document"   => $this->document ?? null
+            ];
+
+            if (!empty($this->password)) {
+                if (!is_password($this->password)) {
+                    $this->message->warning("Senha inválida.");
+                    return null;
+                }
+
+                $this->data->password = password_hash($this->password, PASSWORD_DEFAULT);
             }
 
             $this->update(self::$entity, $this->safe(), "id = :id", "id={$userId}");

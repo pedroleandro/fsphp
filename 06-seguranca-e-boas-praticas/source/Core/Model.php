@@ -153,8 +153,6 @@ abstract class Model
 
     protected function required(): bool
     {
-        var_dump($this->data());
-
         $data = (array)$this->data();
 
         foreach (static::$required as $field){
