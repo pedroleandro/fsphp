@@ -23,6 +23,7 @@
     ]
   },
   "require": {
-    "league/csv": "9.28.0"
+    "league/csv": "9.28.0",
+    "phpmailer/phpmailer": "^7.0.0"
   }
 }
