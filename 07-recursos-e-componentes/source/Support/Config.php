@@ -45,3 +45,9 @@ define("CONFIG_MESSAGE_SUCESS", "success");
 define("CONFIG_MESSAGE_WARNING", "warning");
 define("CONFIG_MESSAGE_ERROR", "error");
 
+
+/**
+ * EMAIL
+ */
+define("CONFIG_EMAIL_FROM_EMAIL", "pedroleandrogomesdasilva@outlook.com");
+define("CONFIG_EMAIL_FROM_NAME", "Pedro Silva");
