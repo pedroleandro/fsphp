@@ -21,6 +21,11 @@ var_dump($phpMailer instanceof PHPMailer);
  */
 fullStackPHPClassSession("configure", __LINE__);
 
+use Dotenv\Dotenv;
+
+$dotenv = Dotenv::createImmutable(__DIR__ . '/..');
+$dotenv->load();
+
 try{
 
     $mail = new PHPMailer(true);
@@ -29,8 +34,8 @@ try{
     $mail->isSMTP();                                            //Send using SMTP
     $mail->Host       = 'smtp.sendgrid.net';                     //Set the SMTP server to send through
     $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-    $mail->Username   = 'apikey';                     //SMTP username
-    $mail->Password   = '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';                               //SMTP password
+    $mail->Username   = $_ENV['apikey'];                     //SMTP username
+    $mail->Password   = $_ENV['password'];                               //SMTP password
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
     $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
     $mail->setLanguage('br');
