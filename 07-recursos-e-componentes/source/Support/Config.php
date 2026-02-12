@@ -47,6 +47,13 @@ define("CONFIG_MESSAGE_ERROR", "error");
 
 
 /**
+ * VIEWS
+ */
+define("CONFIG_VIEW_PATH", __DIR__ . "/../assets/views");
+define("CONFIG_VIEW_EXTENSION", __DIR__ . "php");
+
+
+/**
  * EMAIL
  */
 define("CONFIG_EMAIL_FROM_EMAIL", "pedroleandrogomesdasilva@outlook.com");

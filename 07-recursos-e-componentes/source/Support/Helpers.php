@@ -146,6 +146,28 @@ function redirect(string $url): void
     exit;
 }
 
+
+/**
+ * #################
+ * ###   DATAS   ###
+ * #################
+ */
+
+function date_format_to(string $date = 'now', string $format = 'd/m/Y H\hi'): string
+{
+    return (new DateTime($date))->format($format);
+}
+
+function date_format_to_br(string $date = 'now'): string
+{
+    return (new DateTime($date))->format(CONFIG_DATE_BR);
+}
+
+function date_format_to_app(string $date = 'now'): string
+{
+    return (new DateTime($date))->format(CONFIG_DATE_APP);
+}
+
 /**
  * ####################
  * ###   TRIGGERS   ###
