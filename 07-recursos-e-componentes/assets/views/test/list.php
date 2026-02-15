@@ -11,3 +11,5 @@
     </article>
 
 <?php endforeach; ?>
+
+<?= ($pager ?? null); ?>
