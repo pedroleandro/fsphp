@@ -27,6 +27,7 @@
     "phpmailer/phpmailer": "^7.0.0",
     "vlucas/phpdotenv": "^5.6",
     "league/plates": "3.*",
-    "coffeecode/uploader": "2.0.*"
+    "coffeecode/uploader": "2.0.*",
+    "coffeecode/cropper": "2.0.*"
   }
 }
