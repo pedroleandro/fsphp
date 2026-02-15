@@ -47,6 +47,23 @@ define("CONFIG_MESSAGE_ERROR", "error");
 
 
 /**
+ * UPLOAD
+ */
+define("CONFIG_UPLOAD_DIR", "../storage/uploads");
+define("CONFIG_UPLOAD_IMAGE_DIR", "images");
+define("CONFIG_UPLOAD_FILE_DIR", "files");
+define("CONFIG_UPLOAD_MEDIA_DIR", "medias");
+
+
+/**
+ * IMAGES
+ */
+define("CONFIG_IMAGE_CACHE", CONFIG_UPLOAD_DIR . "/" . CONFIG_UPLOAD_IMAGE_DIR . "/cache");
+define("CONFIG_IMAGE_SIZE", 2000);
+define("CONFIG_IMAGE_QUALITY", ['jpg' => 75, 'png' => 5]);
+
+
+/**
  * VIEWS
  */
 define("CONFIG_VIEW_PATH", __DIR__ . "/../assets/views");
